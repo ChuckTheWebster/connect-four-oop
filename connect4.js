@@ -12,7 +12,7 @@ class Game {
     this.HEIGHT = height;
     this.WIDTH = width;
     this.board = [];
-    this.currPlayer = 1;
+    this.currPlayer = p1;
     this.makeBoard();
     this.makeHtmlBoard();
     this.gameOver = false;
@@ -68,8 +68,9 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${this.currPlayer}`);
+    piece.classList.add(`p${this.currPlayer.id}`);
     piece.style.top = -50 * (y + 2);
+    piece.style.backgroundColor = this.currPlayer.color;
 
     const spot = document.getElementById(`${y}-${x}`);
     spot.append(piece);
@@ -95,12 +96,12 @@ class Game {
     }
 
     // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
+    this.board[y][x] = this.currPlayer.id;
     this.placeInTable(y, x);
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.id} won!`);
     }
 
     // check for tie
@@ -109,7 +110,8 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    console.log(this.currPlayer.id);
+    this.currPlayer.id = this.currPlayer.id === p1.id ? p2.id : p1.id;
   }
 
   checkForWin() {
@@ -156,6 +158,15 @@ function startGame() {
 
 }
 
-
 startGame();
+
+class Player {
+  constructor(id, color) {
+    this.id = id;
+    this.color = color;
+  }
+}
+
+const p1 = new Player('p1', 'red');
+const p2 = new Player('p1', 'blue');
 
