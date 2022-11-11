@@ -1,3 +1,6 @@
+const HEIGHT = 7;
+const WIDTH = 6;
+
 /** Connect Four
  *
  * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
@@ -5,11 +8,14 @@
  * board fills (tie)
  */
 class Game {
-  constructor(height=7, width=6, board=[], currPlayer=1) {
+  constructor(height=HEIGHT, width=WIDTH) {
     this.HEIGHT = height;
     this.WIDTH = width;
-    this.board = board;
-    this.currPlayer = currPlayer;
+    this.board = [];
+    this.currPlayer = 1;
+    this.makeBoard();
+    this.makeHtmlBoard();
+    //this.checkForWin = this.checkForWin.bind(this);
   }
 
   makeBoard() {
@@ -24,7 +30,7 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
-    top.addEventListener('click', this.handleClick);
+    top.addEventListener('click', this.handleClick.bind(this));
 
     for (let x = 0; x < this.WIDTH; x++) {
       const headCell = document.createElement('td');
@@ -49,7 +55,7 @@ class Game {
   }
 
   findSpotForCol(x) {
-    debugger;
+
     for (let y = this.HEIGHT - 1; y >= 0; y--) {
       if (!this.board[y][x]) {
         return y;
@@ -61,7 +67,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${currPlayer}`);
+    piece.classList.add(`p${this.currPlayer}`);
     piece.style.top = -50 * (y + 2);
 
     const spot = document.getElementById(`${y}-${x}`);
@@ -77,7 +83,7 @@ class Game {
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
-    debugger;
+
     const y = this.findSpotForCol(x);
     if (y === null) {
       return;
@@ -88,7 +94,7 @@ class Game {
     this.placeInTable(y, x);
 
     // check for win
-    if (checkForWin()) {
+    if (this.checkForWin()) {
       return this.endGame(`Player ${this.currPlayer} won!`);
     }
 
@@ -102,7 +108,8 @@ class Game {
   }
 
   checkForWin() {
-    function _win(cells) {
+
+    const _win = cells =>  {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
@@ -137,6 +144,5 @@ class Game {
 
 let newGame = new Game(6, 7);
 
-newGame.makeBoard();
-newGame.makeHtmlBoard();
+
 
