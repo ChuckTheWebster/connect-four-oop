@@ -8,11 +8,13 @@ const WIDTH = 6;
  * board fills (tie)
  */
 class Game {
-  constructor(height=HEIGHT, width=WIDTH) {
+  constructor(height=HEIGHT, width=WIDTH, p1, p2) {
     this.HEIGHT = height;
     this.WIDTH = width;
     this.board = [];
     this.currPlayer = p1;
+    this.p1 = p1;
+    this.p2 = p2;
     this.makeBoard();
     this.makeHtmlBoard();
     this.gameOver = false;
@@ -110,8 +112,10 @@ class Game {
     }
 
     // switch players
+    console.log(this.currPlayer.color);
     console.log(this.currPlayer.id);
-    this.currPlayer.id = this.currPlayer.id === p1.id ? p2.id : p1.id;
+    //this.currPlayer.id = this.currPlayer.id === this.p1Id ? this.p2Id : this.p1Id;
+    this.currPlayer = this.currPlayer.id === this.p1.id ? this.p2 : this.p1;
   }
 
   checkForWin() {
@@ -151,14 +155,17 @@ class Game {
 
 function startGame() {
   const button = document.querySelector('#start');
+
   button.addEventListener('click', function(){
-    let newGame = new Game(HEIGHT,WIDTH);
+    const p1 = new Player('1', 'red');
+    const p2 = new Player('2', 'blue');
+    let newGame = new Game(HEIGHT,WIDTH, p1, p2);
     return newGame;
   })
 
 }
 
-startGame();
+
 
 class Player {
   constructor(id, color) {
@@ -167,6 +174,6 @@ class Player {
   }
 }
 
-const p1 = new Player('p1', 'red');
-const p2 = new Player('p1', 'blue');
 
+
+startGame();
