@@ -112,8 +112,6 @@ class Game {
     }
 
     // switch players
-    console.log(this.currPlayer.color);
-    console.log(this.currPlayer.id);
     //this.currPlayer.id = this.currPlayer.id === this.p1Id ? this.p2Id : this.p1Id;
     this.currPlayer = this.currPlayer.id === this.p1.id ? this.p2 : this.p1;
   }
@@ -131,7 +129,7 @@ class Game {
           y < this.HEIGHT &&
           x >= 0 &&
           x < this.WIDTH &&
-          this.board[y][x] === this.currPlayer
+          this.board[y][x] === this.currPlayer.id
       );
     }
 
