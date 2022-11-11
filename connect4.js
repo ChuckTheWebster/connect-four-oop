@@ -142,7 +142,15 @@ class Game {
   }
 }
 
-let newGame = new Game(6, 7);
+function startGame() {
+  const button = document.querySelector('#start');
+  button.addEventListener('click', function(){
+    let newGame = new Game(HEIGHT,WIDTH);
+    return newGame;
+  })
+
+}
 
 
+startGame();
 
